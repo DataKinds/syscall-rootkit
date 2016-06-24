@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 define = "#define SYS_CALL_TABLE ((unsigned long**)0x#{`cat /boot/System.map-3.16.0-4-amd64 | grep " sys_call_table" | ruby -ane 'print $_.split(" ")[0]'`})"
 File.open("rk.c", "r") do |code|
 	firstLine = code.readline
