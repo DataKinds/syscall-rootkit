@@ -1,4 +1,6 @@
-#define SYS_CALL_TABLE ((unsigned long**)0xffffffff81601440)
+<%= define %>
+// This is what an example offset looks like:
+// #define SYS_CALL_TABLE ((unsigned long**)0xffffffff81601440)
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/syscalls.h>

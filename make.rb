@@ -1,16 +1,14 @@
 #!/usr/bin/env ruby
-define = "#define SYS_CALL_TABLE ((unsigned long**)0x#{`cat /boot/System.map-3.16.0-4-amd64 | grep " sys_call_table" | ruby -ane 'print $_.split(" ")[0]'`})"
-File.open("rk.c", "r") do |code|
-	firstLine = code.readline
-	if firstLine != define
-		File.open("rk.c.new", "w") do |newCode|
-			newCode.write(define + "\n")
-			code.each_line do |oldCodeLine|
-				newCode.write oldCodeLine
-			end
-		end
-	end
-end
-`mv rk.c rk.c.bak`
-`mv rk.c.new rk.c`
-puts `make`
+require "erb"
+
+linuxVersion = `uname -r`.chomp
+puts "uname -r = #{linuxVersion}"
+puts "using /boot/System.map-#{linuxVersion}"
+syscallOffset = `sudo cat /boot/System.map-#{linuxVersion} | grep ' sys_call_table' | ruby -ane 'print $_.split(" ")[0]'`
+define = "#define SYS_CALL_TABLE ((unsigned long**)0x#{syscallOffset})"
+puts "sys_call_table definition:\n    #{define}"
+puts "creating rk.c from rk.c.erb"
+rkTemplate = ERB.new(File.read "rk.c.erb")
+File.write "rk.c", rkTemplate.result_with_hash({define: define})
+puts "done"
+puts "to finish the building process, please run `make`. if this message occurs during the `make` process, please ignore it."
