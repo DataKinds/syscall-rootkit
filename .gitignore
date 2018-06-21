@@ -1,7 +1,10 @@
 rk.c
 rk.o
 rk.ko
-*mod*
+*.mod.*
+Module.symvers
+modules.order
+.cache.mk
 .rk*
 *.ur-safe
 .tmp_versions/
