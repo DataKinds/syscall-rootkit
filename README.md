@@ -7,7 +7,7 @@ Ok, maybe it's not a catchy name, haha. This is a simple proof-of-concept kernel
 1. Make sure you have a sane build environment and updated headers for your Linux distro.
 2. Make sure you have a /boot/System.map - this is what gets read by the ruby preprocessor.
 3. Make sure you have ruby installed.
-4. Run `make.rb` - this will preprocess and build the rootkit, saving it to rk.ko.
+4. Run `make` - this will preprocess and build the rootkit, saving it to rk.ko.
 5. `sudo insmod rk.ko`
 6. Play with it!
 7. `sudo rmmod rk.ko`
