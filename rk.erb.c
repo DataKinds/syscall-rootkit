@@ -4,6 +4,9 @@
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/syscalls.h>
+#include <linux/slab.h>
+#include <linux/kern_levels.h>
+#include <linux/gfp.h>
 #include <asm/unistd.h>
 #include <asm/paravirt.h>
 
@@ -19,6 +22,13 @@ asmlinkage int rk_write(unsigned int fd, const char __user* buf, size_t count) {
 asmlinkage int (*original_read)(unsigned int, void __user*, size_t);
 asmlinkage int rk_read(unsigned int fd, void __user* buf, size_t count) {
 	// put your code here
+	// begin example code
+	char* str_buf = (char*)kmalloc(count + 1, GFP_KERNEL || GFP_NOIO || GFP_NOFS);
+	memcpy(str_buf, buf, count);
+	str_buf[count] = 0;
+	printk("Intercepted a read call:\n  FD:%i\n  Size:%li\n  Buffer:%s", fd, count, str_buf);
+	kfree(str_buf);
+	// end example code
 	return (*original_read)(fd, buf, count);
 }
 
