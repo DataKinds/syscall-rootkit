@@ -12,11 +12,13 @@
 
 asmlinkage int (*original_write)(unsigned int, const char __user *, size_t);
 asmlinkage int rk_write(unsigned int fd, const char __user* buf, size_t count) {
+	// put your code here
 	return (*original_write)(fd, buf, count);
 }
 
 asmlinkage int (*original_read)(unsigned int, void __user*, size_t);
 asmlinkage int rk_read(unsigned int fd, void __user* buf, size_t count) {
+	// put your code here
 	return (*original_read)(fd, buf, count);
 }
 
